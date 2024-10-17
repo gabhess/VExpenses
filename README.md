@@ -180,15 +180,7 @@ output "ec2_public_ip" {
    *Chave privada para acesso SSH.
    *IP público da instância EC2.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#RESUMO TÉCNICO
-Este código provisiona uma infraestrutura na AWS composta por:
 
-*VPC com uma subnet e acesso à Internet.
-*Internet Gateway e tabela de rotas configurada para permitir tráfego externo.
-*Par de chaves SSH para acesso à instância.
-*Grupo de segurança que permite SSH e todo tráfego de saída.
-*Instância EC2 baseada no Debian 12, com inicialização automática para atualização de pacotes.
----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
