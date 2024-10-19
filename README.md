@@ -1,5 +1,5 @@
 VExpenses (Gabriel Hess)
-DESAFIO TERRAFORM (veja em formato code)
+DESAFIO TERRAFORM 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Atividade 1
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -319,14 +319,72 @@ output "ec2_public_ip" {
    * O IP público é exibido automaticamente como output.
    * Instalação do Nginx reduz a necessidade de configurações manuais pós-instância.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# INSTRUÇÕES DE USO DAS MELHORIAS E ALTERAÇÕES:
 
+1. Pré-requisitos:
+-> Antes de começar, garanta que você possui os seguintes itens configurados:
+   * Conta na AWS: É necessário acesso a uma conta da AWS com permissões para criar VPCs, instâncias EC2, grupos de segurança, e pares de chaves.
+     
+   * AWS CLI Configurada: Instale e configure a AWS CLI com um perfil ativo (com as credenciais de acesso).
+     -> COMANDO DE CONFIGURAÇÃO: "aws configure"
+     
+   * Terraform instalado: Instale o Terraform seguindo as instruções para o seu sistema operacional
+     
+   * Chave SSH pública: Você pode criar uma chave com o comando abaixo (caso não tenha uma):
+     -> COMANDO DE CRIAÇÃO DE CHAVE: "ssh-keygen -t rsa -b 2048 -f ~/.ssh/my_aws_key"
+     
+2. Configuração Inicial
+   * Clone ou extraia o projeto: Crie uma pasta e coloque o arquivo main.tf modificado dentro dela.
+   * Inicialize o Terraform: Navegue até o diretório onde o arquivo main.tf está localizado e execute: "terraform init" (Esse comando baixa todos os provedores necessários e prepara o Terraform para execução.)
+   
+3. Personalize Variáveis (Opcional)
+   * Configure seu IP de confiança para acesso SSH: Edite o trecho do arquivo main.tf onde está a variável trusted_ip:
+     
+     variable "trusted_ip" {
+       default = "SEU_IP/32"
+}
 
+   * Para descobrir seu IP público, utilize:
+    -> "curl ifconfig.me"
 
+4. Verificar o Plano de Execução
+   * Execute o comando abaixo para visualizar o que será criado:
+    -> "terraform plan"
+   * Isso gera um resumo das alterações, permitindo verificar se a infraestrutura será criada corretamente.
 
+5. Aplicar o Código Terraform
+   * Execute o comando abaixo para criar a infraestrutura:
+    -> "terraform apply"
+   * Confirme a aplicação digitando yes quando solicitado.
 
+6. Acesso à Instância EC2 e ao Nginx
+   * Obtenha o IP Público da EC2: Ao final da aplicação, o output exibirá o IP público da instância:
+     
+     Outputs:
+     ec2_public_ip = "X.X.X.X"
+     
+   * Acesse o Nginx pelo Navegador: Abra um navegador e digite:
+    -> http://X.X.X.X  (Substitua X.X.X.X pelo IP público exibido no output).
 
+   * Conecte-se via SSH à Instância: Utilize o seguinte comando para acessar a instância via SSH:
+    -> ssh -i ./ec2_private_key.pem ubuntu@X.X.X.X (Garanta que o arquivo ec2_private_key.pem está no mesmo diretório e tem permissões restritas).
 
+7. Verificação e Monitoramento
 
+   * Verificar o status do Nginx na instância EC2: Após conectar-se via SSH, você pode verificar se o Nginx está rodando:
+     -> sudo systemctl status nginx
+
+8. Destruir a Infraestrutura (Caso Necessário)
+
+   * Se quiser remover a infraestrutura criada, utilize o comando abaixo:
+     -> terraform destroy
+   * Confirme a destruição digitando yes.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# CONSIDERAÇÕES FINAIS
+
+  * Cuidado com Custos: A instância EC2 e outros recursos criados podem gerar custos na AWS. Remova os recursos com o comando terraform destroy se não forem mais necessários.
+  * Permissões Restritas: Mantenha a chave privada (ec2_private_key.pem) segura para evitar acesso não autorizado à instância.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------   
 
 
 
